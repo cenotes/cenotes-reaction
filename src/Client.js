@@ -6,7 +6,7 @@ function search(payload, password, cb) {
   }).then(checkStatus)
     .then(parseJSON)
     .then((r) => cb({}, r))
-    .catch(cb)
+    .catch(cb);
 }
 
 function sendEncryptRequest(data, cb) {
@@ -20,8 +20,7 @@ function sendEncryptRequest(data, cb) {
   }).then(checkStatus)
     .then(parseJSON)
     .then((r) => cb({}, r))
-    .catch(cb)
-
+    .catch(cb);
 }
 
 

@@ -1,8 +1,7 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import Client from "./Client";
 import { Accordion, Checkbox, Message, Label, Segment, Dimmer, Loader,
-  TextArea, Icon, Input, Divider, Form } from 'semantic-ui-react'
+  TextArea, Icon, Input, Divider, Form } from "semantic-ui-react";
 
 class EncryptNote extends React.Component {
   state = { activeIndex: 0 };

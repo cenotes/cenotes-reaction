@@ -1,7 +1,7 @@
 import React from "react";
 import Client from "./Client";
 import { TextArea, Message, Form, Segment, Dimmer,
-  Loader } from 'semantic-ui-react'
+  Loader } from "semantic-ui-react";
 
 class DecryptNote extends React.Component {
   constructor(props) {
