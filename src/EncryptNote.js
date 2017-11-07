@@ -18,7 +18,8 @@ class EncryptNote extends React.Component {
       showError: false,
       enableMaxVisits: true,
       showEncryptionResults: false,
-      showLoader:false
+      showLoader: false,
+      successMessageHeader: ""
     };
 
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
@@ -40,7 +41,8 @@ class EncryptNote extends React.Component {
       errormessage: response.error || err.message,
       showError: response.error || err.message,
       showEncryptionResults: response.success,
-      showLoader: false
+      showLoader: false,
+      successMessageHeader: "Note was encrypted successfully"
     });
   };
 
@@ -104,6 +106,20 @@ class EncryptNote extends React.Component {
     this.setState({showSuccess: false});
   };
 
+  copyInputToClipboard = e => {
+    const icon = e.target;
+    const field = icon.parentElement;
+    const decrypt_link = field.querySelector('[name="decrypt-link"]');
+    this.selectInput({target: decrypt_link});
+    document.execCommand("copy");
+    this.setState({successMessageHeader: "Link copied successfully"});
+  };
+
+  selectInput = e => {
+    const decrypt_link = e.target;
+    decrypt_link.select();
+  };
+
   render() {
     const { activeIndex } = this.state;
     return (
@@ -112,7 +128,7 @@ class EncryptNote extends React.Component {
         <Message
           positive
           hidden={!this.state.showSuccess}
-          header="Note was encrypted successfully!"
+          header={this.state.successMessageHeader}
           onDismiss={this.handleCloseSuccess}
         />
         <Message
@@ -187,11 +203,12 @@ class EncryptNote extends React.Component {
             <Divider horizontal>OR</Divider>
             <Form.Field>
               <Label>Alternatively you can share privately the following link</Label>
-              <p/>
-              <Link
-                to={`/decrypt/${this.state.payload}/${this.state.key}`}>
-                Link to decrypt note
-              </Link>
+              <Input
+                name="decrypt-link"
+                icon={<Icon name='clipboard' link onClick={this.copyInputToClipboard}/>}
+                value={`${window.location.origin}/decrypt/${this.state.payload}/${this.state.key}`}
+                onClick={this.selectInput}
+              />
             </Form.Field>
           </Form>
         </Segment>
