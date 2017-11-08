@@ -50,7 +50,10 @@ class DecryptNote extends React.Component {
 
   decrypt = (payload="", key="") => {
     if (payload && key) {
-      Client.search(payload, key, this.handleSubmitCb);
+      Client.sendDecryptionRequest(JSON.stringify({
+        payload: payload,
+        key: key,
+      }), this.handleSubmitCb);
     }
   };
 

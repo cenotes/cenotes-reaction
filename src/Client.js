@@ -1,8 +1,13 @@
 /* eslint-disable no-undef */
 
-function search(payload, password, cb) {
-  return fetch(`/notes/${payload}/${password}`, {
-    accept: "application/json"
+function sendDecryptionRequest(data, cb) {
+  return fetch(`/notes/`, {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: data
   }).then(checkStatus)
     .then(parseJSON)
     .then((r) => cb({}, r))
@@ -39,5 +44,5 @@ function parseJSON(response) {
 }
 
 
-const Client = { search, sendEncryptRequest };
+const Client = { sendDecryptionRequest, sendEncryptRequest };
 export default Client;
