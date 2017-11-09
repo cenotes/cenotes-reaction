@@ -46,6 +46,7 @@ class EncryptNote extends React.Component {
       showSuccess: response.success,
       payload: response.payload,
       key: response.key,
+      duressKey: response.duress_key,
       errormessage: response.error || err.message,
       showError: response.error || err.message,
       showEncryptionResults: response.success,
@@ -229,9 +230,16 @@ class EncryptNote extends React.Component {
               <Label>This is the key to decrypt (you should share this in private)</Label>
               <TextArea value={this.state.key} rows={1} autoHeight readOnly={true}/>
             </Form.Field>
+            <div hidden={!this.state.duressKey}>
+              <Divider horizontal>AND</Divider>
+              <Form.Field>
+                <Label>This is the duress key to signal deletion of note</Label>
+                <TextArea value={this.state.duressKey} rows={1} autoHeight readOnly={true}/>
+              </Form.Field>
+            </div>
             <Divider horizontal>OR</Divider>
             <Form.Field>
-              <Label>Alternatively you can share privately the following link</Label>
+              <Label>Alternatively you can share privately the following link to decrypt the note</Label>
               <Input
                 name="decrypt-link"
                 icon={<Icon name='clipboard' link onClick={this.copyInputToClipboard}/>}
@@ -239,6 +247,18 @@ class EncryptNote extends React.Component {
                 onClick={this.selectInput}
               />
             </Form.Field>
+            <div hidden={!this.state.duressKey}>
+              <Divider horizontal>AND</Divider>
+              <Form.Field>
+                <Label>You can share the following link to delete the note</Label>
+                <Input
+                  name="decrypt-link"
+                  icon={<Icon name='clipboard' link onClick={this.copyInputToClipboard}/>}
+                  value={`${window.location.origin}/decrypt/${this.state.payload}/${this.state.duressKey}`}
+                  onClick={this.selectInput}
+                />
+              </Form.Field>
+            </div>
           </Form>
         </Segment>
         <p/>
