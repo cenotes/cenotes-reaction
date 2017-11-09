@@ -105,11 +105,11 @@ class DecryptNote extends React.Component {
                         placeholder="Enter the payload here"/>
             </Form.Field>
             <Form.Field>
-              <label>Password</label>
+              <label>Key</label>
               <TextArea onChange={this.handleKeyChange}
                         rows={1}
                         autoHeight
-                        placeholder="Enter password here"/>
+                        placeholder="Enter key here"/>
             </Form.Field>
             <div className="ui button green"
                  onClick={this.handleSubmit}>Decrypt</div>
