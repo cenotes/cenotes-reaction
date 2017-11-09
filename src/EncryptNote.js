@@ -4,6 +4,7 @@ import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import { Accordion, Checkbox, Message, Label, Segment, Dimmer, Loader,
   TextArea, Icon, Input, Divider, Form } from "semantic-ui-react";
+import QRCode from "qrcode.react";
 
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -142,6 +143,14 @@ class EncryptNote extends React.Component {
     this.setState({expirationDate: date});
   };
 
+  craftDecryptLink() {
+    return `${window.location.origin}/decrypt/${this.state.payload}/${this.state.key}`;
+  };
+
+  craftDuressLink() {
+    return `${window.location.origin}/decrypt/${this.state.payload}/${this.state.duressKey}`;
+  };
+
   render() {
     const { activeIndex } = this.state;
     return (
@@ -222,6 +231,52 @@ class EncryptNote extends React.Component {
         <Segment hidden={!this.state.showEncryptionResults}>
           <Form>
             <Form.Field>
+              <Label>You can share privately the following link to decrypt the note</Label>
+              <Input
+                name="decrypt-link"
+                icon={<Icon name='clipboard' link onClick={this.copyInputToClipboard}/>}
+                value={this.craftDecryptLink()}
+                onClick={this.selectInput}
+              />
+            </Form.Field>
+            <Accordion fluid styled>
+              <Accordion.Title
+                active={activeIndex === 1}
+                index={1}
+                onClick={this.handleAccordionClick}>
+                <Icon name='dropdown' />
+                QR code
+              </Accordion.Title>
+              <Accordion.Content active={activeIndex === 1}>
+                <QRCode value={this.craftDecryptLink()}/>
+              </Accordion.Content>
+            </Accordion>
+            <div hidden={!this.state.duressKey}>
+              <Divider horizontal>AND</Divider>
+              <Form.Field>
+                <Label>You can share the following duress link to delete the note</Label>
+                <Input
+                  name="decrypt-link"
+                  icon={<Icon name='clipboard' link onClick={this.copyInputToClipboard}/>}
+                  value={this.craftDuressLink()}
+                  onClick={this.selectInput}
+                />
+              </Form.Field>
+              <Accordion fluid styled>
+                <Accordion.Title
+                  active={activeIndex === 2}
+                  index={2}
+                  onClick={this.handleAccordionClick}>
+                  <Icon name='dropdown' />
+                  QR code
+                </Accordion.Title>
+                <Accordion.Content active={activeIndex === 2}>
+                  <QRCode value={this.craftDuressLink()}/>
+                </Accordion.Content>
+              </Accordion>
+            </div>
+            <Divider horizontal>OR Share in parts</Divider>
+            <Form.Field>
               <Label>This is the payload (you can share this in public)</Label>
               <TextArea value={this.state.payload} rows={1} autoHeight readOnly={true}/>
             </Form.Field>
@@ -233,30 +288,8 @@ class EncryptNote extends React.Component {
             <div hidden={!this.state.duressKey}>
               <Divider horizontal>AND</Divider>
               <Form.Field>
-                <Label>This is the duress key to signal deletion of note</Label>
+                <Label>This is the duress key to signal deletion of note (you can choose how to share this)</Label>
                 <TextArea value={this.state.duressKey} rows={1} autoHeight readOnly={true}/>
-              </Form.Field>
-            </div>
-            <Divider horizontal>OR</Divider>
-            <Form.Field>
-              <Label>Alternatively you can share privately the following link to decrypt the note</Label>
-              <Input
-                name="decrypt-link"
-                icon={<Icon name='clipboard' link onClick={this.copyInputToClipboard}/>}
-                value={`${window.location.origin}/decrypt/${this.state.payload}/${this.state.key}`}
-                onClick={this.selectInput}
-              />
-            </Form.Field>
-            <div hidden={!this.state.duressKey}>
-              <Divider horizontal>AND</Divider>
-              <Form.Field>
-                <Label>You can share the following link to delete the note</Label>
-                <Input
-                  name="decrypt-link"
-                  icon={<Icon name='clipboard' link onClick={this.copyInputToClipboard}/>}
-                  value={`${window.location.origin}/decrypt/${this.state.payload}/${this.state.duressKey}`}
-                  onClick={this.selectInput}
-                />
               </Form.Field>
             </div>
           </Form>
