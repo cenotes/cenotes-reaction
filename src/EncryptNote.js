@@ -1,7 +1,12 @@
 import React from "react";
 import Client from "./Client";
+import DatePicker from 'react-datepicker';
+import moment from 'moment';
 import { Accordion, Checkbox, Message, Label, Segment, Dimmer, Loader,
   TextArea, Icon, Input, Divider, Form } from "semantic-ui-react";
+
+import 'react-datepicker/dist/react-datepicker.css';
+
 
 class EncryptNote extends React.Component {
   state = { activeIndex: 0 };
@@ -19,7 +24,10 @@ class EncryptNote extends React.Component {
       enableMaxVisits: true,
       showEncryptionResults: false,
       showLoader: false,
-      successMessageHeader: ""
+      successMessageHeader: "",
+      expirationDate: moment().add(2,'week'),
+      expirationDatePlaceHolder: "Note does not expire",
+      expirationDateEnabled: true,
     };
 
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
@@ -52,6 +60,7 @@ class EncryptNote extends React.Component {
       showSuccess: false,
       showEncryptionResults: false
     });
+
     const [plaintext, password] = [this.state.plaintext, this.state.password];
     if (plaintext) {
       this.setState({showLoader: true});
@@ -60,7 +69,8 @@ class EncryptNote extends React.Component {
           plaintext: plaintext,
           key: password,
           max_visits: this.state.max_visits,
-          no_store: !Boolean(this.state.store)
+          no_store: !Boolean(this.state.store),
+          expiration_date: this.state.expirationDate || ""
         }),
         this.handleSubmitCb);
     }
@@ -69,12 +79,19 @@ class EncryptNote extends React.Component {
   handleStoreChange = e => {
     const store = !this.state.store;
     if (!store){
-      this.setState({enableMaxVisits: false});
-      this.setState({max_visits: 0});
+      this.setState({
+        enableMaxVisits: false,
+        max_visits: 0,
+        expirationDateEnabled: false,
+        expirationDate: null,
+      });
     }
     else {
-      this.setState({enableMaxVisits: true});
-      this.setState({max_visits: 1});
+      this.setState({enableMaxVisits: true,
+        expirationDate: moment().add(2,'week'),
+        expirationDateEnabled: true,
+        max_visits: 1
+      });
     }
     this.setState({store: store})
 
@@ -118,6 +135,10 @@ class EncryptNote extends React.Component {
   selectInput = e => {
     const decrypt_link = e.target;
     decrypt_link.select();
+  };
+
+  handleExpirationDateChange = date => {
+    this.setState({expirationDate: date});
   };
 
   render() {
@@ -174,9 +195,17 @@ class EncryptNote extends React.Component {
                             checked={this.state.store}
                             onChange={this.handleStoreChange}/>
                 </div>
-                <p>
-                  <sub><i>expiration date coming soon</i></sub>
-                </p>
+                <DatePicker
+                  selected={this.state.expirationDate}
+                  onChange={this.handleExpirationDateChange}
+                  placeholderText={this.state.expirationDatePlaceHolder}
+                  isClearable={true}
+                  disabled={!this.state.expirationDateEnabled}
+                  dateFormat="DD/MM/YYYY"
+                  showMonthDropdown
+                  showYearDropdown
+                  dropdownMode="select"
+                />
               </Accordion.Content>
             </Accordion>
             <p/>
