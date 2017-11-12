@@ -68,3 +68,28 @@ Two options:
             }
         }
         ```
+    3. You will also need to include the endpoint of your backend application
+        - Example of nginx configuration for backend running as a uwsgi socket 
+        ```
+        server {
+            listen 80;
+            server_name <your server name / ip>;
+            # CENOTES-BACKEND
+                location /notes {
+                    include uwsgi_params;
+                    uwsgi_pass  unix:/run/uwsgi/app/cenotes/cenotes.sock;
+            #proxy_pass http://83.212.96.88;
+                }
+        }
+        ```
+        - Example of nginx configuration for backend running in another site
+        ```
+        server {
+            listen 80;
+            server_name <your server name / ip>;
+            # CENOTES-BACKEND
+                location /notes {
+                    proxy_pass http://<backend_url>:<port>;
+                }
+        }
+        ```
