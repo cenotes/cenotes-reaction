@@ -179,7 +179,7 @@ class EncryptNote extends React.Component {
                         placeholder="Enter your note here"/>
             </Form.Field>
             <Form.Field>
-              <label>Password</label>
+              <label>Password to generate key</label>
               <TextArea onChange={this.handlePasswordChange}
                         rows="1" autoHeight
                         placeholder="Enter password here"/>
@@ -231,7 +231,7 @@ class EncryptNote extends React.Component {
         <Segment hidden={!this.state.showEncryptionResults}>
           <Form>
             <Form.Field>
-              <Label>You can share privately the following link to decrypt the note</Label>
+              <Label>Share privately the following link to decrypt the note</Label>
               <Input
                 name="decrypt-link"
                 icon={<Icon name='clipboard' link onClick={this.copyInputToClipboard}/>}
@@ -250,11 +250,40 @@ class EncryptNote extends React.Component {
               <Accordion.Content active={activeIndex === 1}>
                 <QRCode value={this.craftDecryptLink()}/>
               </Accordion.Content>
+              <Accordion.Title
+                active={activeIndex === 2}
+                index={2}
+                onClick={this.handleAccordionClick}>
+                <Icon name='dropdown' />
+                Advanced sharing
+              </Accordion.Title>
+              <Accordion.Content active={activeIndex === 2}>
+                <Form.Field>
+                  <Label>This is the payload (you can share this in public)</Label>
+                  <Input name="decrypt-link"
+                         value={this.state.payload}
+                         icon={
+                           <Icon name='clipboard'
+                                 link onClick={this.copyInputToClipboard}/>}
+                         onClick={this.selectInput}
+                  />
+                </Form.Field>
+                <Form.Field>
+                  <Label>This is the key (you should share this in private)</Label>
+                  <Input name="decrypt-link"
+                         value={this.state.key}
+                         icon={
+                           <Icon name='clipboard'
+                                 link onClick={this.copyInputToClipboard}/>}
+                         onClick={this.selectInput}
+                  />
+                </Form.Field>
+              </Accordion.Content>
             </Accordion>
             <div hidden={!this.state.duressKey}>
-              <Divider horizontal>AND</Divider>
+              <Divider horizontal>OR</Divider>
               <Form.Field>
-                <Label>You can share the following duress link to delete the note</Label>
+                <Label>Share the following duress link to delete the note</Label>
                 <Input
                   name="decrypt-link"
                   icon={<Icon name='clipboard' link onClick={this.copyInputToClipboard}/>}
@@ -264,33 +293,45 @@ class EncryptNote extends React.Component {
               </Form.Field>
               <Accordion fluid styled>
                 <Accordion.Title
-                  active={activeIndex === 2}
-                  index={2}
+                  active={activeIndex === 3}
+                  index={3}
                   onClick={this.handleAccordionClick}>
                   <Icon name='dropdown' />
                   QR code
                 </Accordion.Title>
-                <Accordion.Content active={activeIndex === 2}>
+                <Accordion.Content active={activeIndex === 3}>
                   <QRCode value={this.craftDuressLink()}/>
                 </Accordion.Content>
+                <Accordion.Title
+                  active={activeIndex === 4}
+                  index={4}
+                  onClick={this.handleAccordionClick}>
+                  <Icon name='dropdown' />
+                  Advanced sharing
+                </Accordion.Title>
+                <Accordion.Content active={activeIndex === 4}>
+                  <Form.Field>
+                    <Label>This is the payload (you can share this in public)</Label>
+                    <Input name="decrypt-link"
+                           value={this.state.payload}
+                           icon={
+                             <Icon name='clipboard'
+                                   link onClick={this.copyInputToClipboard}/>}
+                           onClick={this.selectInput}
+                    />
+                  </Form.Field>
+                  <Form.Field>
+                    <Label>This is the duress key (you can share this in public)</Label>
+                    <Input name="decrypt-link"
+                           value={this.state.duressKey}
+                           icon={
+                             <Icon name='clipboard'
+                                   link onClick={this.copyInputToClipboard}/>}
+                           onClick={this.selectInput}
+                    />
+                  </Form.Field>
+                </Accordion.Content>
               </Accordion>
-            </div>
-            <Divider horizontal>OR Share in parts</Divider>
-            <Form.Field>
-              <Label>This is the payload (you can share this in public)</Label>
-              <TextArea value={this.state.payload} rows={1} autoHeight readOnly={true}/>
-            </Form.Field>
-            <Divider horizontal>AND</Divider>
-            <Form.Field>
-              <Label>This is the key to decrypt (you should share this in private)</Label>
-              <TextArea value={this.state.key} rows={1} autoHeight readOnly={true}/>
-            </Form.Field>
-            <div hidden={!this.state.duressKey}>
-              <Divider horizontal>AND</Divider>
-              <Form.Field>
-                <Label>This is the duress key to signal deletion of note (you can choose how to share this)</Label>
-                <TextArea value={this.state.duressKey} rows={1} autoHeight readOnly={true}/>
-              </Form.Field>
             </div>
           </Form>
         </Segment>
