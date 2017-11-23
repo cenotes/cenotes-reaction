@@ -2,12 +2,14 @@ import React, { Component } from "react";
 import { Link, Switch, Route } from "react-router-dom";
 import DecryptNote from "./DecryptNote";
 import EncryptNote from "./EncryptNote";
+import DecryptAction from "./DecryptAction";
 
 
 const Main = () => (
   <main>
     <Switch>
-      <Route exact path="/decrypt/:payload?/:key?" component={DecryptNote}/>
+      <Route exact path="/decrypt/" component={DecryptNote}/>
+      <Route exact path="/decrypt/:payload?/:key?" component={DecryptAction}/>
       <Route path='/encrypt' component={EncryptNote}/>
     </Switch>
   </main>
