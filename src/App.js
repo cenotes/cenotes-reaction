@@ -4,6 +4,8 @@ import DecryptNote from "./DecryptNote";
 import EncryptNote from "./EncryptNote";
 import DecryptAction from "./DecryptAction";
 import EncryptAction from "./EncryptAction";
+import { Header, Icon } from 'semantic-ui-react'
+import { version } from "../package.json";
 
 
 const Main = () => (
@@ -17,12 +19,19 @@ const Main = () => (
   </main>
 );
 
-const Header = () => (
+const CenotesHeader = () => (
   <header>
-    <h1 className="ui center aligned icon header large">
-      <i className="ui icon privacy"/>
+    <Header as="h2" icon textAlign="center">
+      <Icon name="privacy"/>
+      <Header.Content>
         Welcome to CENotes
-    </h1>
+
+        <Header.Subheader>
+          version: {version}
+        </Header.Subheader>
+
+      </Header.Content>
+    </Header>
     <div className="ui center aligned header tiny">
       <a target="_blank" rel="noopener noreferrer"
          href='https://cenotes.readthedocs.io/en/latest/readme.html#what-is-this'>
@@ -50,7 +59,7 @@ class App extends Component {
 
     return (
       <div className="App">
-        <Header />
+        <CenotesHeader />
         <div className="ui section hidden divider"/>
         <div className="ui text container">
           <Main />
