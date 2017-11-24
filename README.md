@@ -20,7 +20,6 @@ Everything the latest version CENotes backend supports
   - After that date, the notes are deleted and cannot be retrieved (default is never)
 - Maximum visits setting for stored encrypted notes (default 1, maximum 100)
   - After N retrievals of a note, the note is deleted (default is 1)
-- QR codes for decrypt and duress links
 
 
 ### How to use

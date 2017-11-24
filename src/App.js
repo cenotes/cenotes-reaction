@@ -3,14 +3,16 @@ import { Link, Switch, Route } from "react-router-dom";
 import DecryptNote from "./DecryptNote";
 import EncryptNote from "./EncryptNote";
 import DecryptAction from "./DecryptAction";
+import EncryptAction from "./EncryptAction";
 
 
 const Main = () => (
   <main>
     <Switch>
-      <Route exact path="/decrypt/" component={DecryptNote}/>
-      <Route exact path="/decrypt/:payload?/:key?" component={DecryptAction}/>
-      <Route path='/encrypt' component={EncryptNote}/>
+      <Route exact path="/decrypt/:payload/:key" component={DecryptAction}/>
+      <Route path="/decrypt/" component={DecryptNote}/>
+      <Route exact path='/encrypt/' component={EncryptNote}/>
+      <Route exact path='/encrypt/go/' component={EncryptAction} />
     </Switch>
   </main>
 );
@@ -36,7 +38,7 @@ const Header = () => (
       <div className="ui horizontal divider">
         Or
       </div>
-      <Link className="ui green basic button"to='/decrypt'>
+      <Link className="ui green basic button" to='/decrypt'>
         Decrypt Note <i className="unlock icon"/>
       </Link>
     </div>
