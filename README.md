@@ -5,7 +5,7 @@
 
 
 ### What is this?
-This is a frontend solution to use for the [CENotes backend](https://github.com/ioparaskev/cenotes)
+This is a frontend solution to use for the [CENotes backend](https://github.com/cenotes/cenotes)
 
 ### Features
 Everything the latest version CENotes backend supports 
@@ -27,13 +27,13 @@ Two options:
 
 1. Cloning the repo and running the NodeJS server with the React components
     1. Clone the repo
-        -  `git clone https://github.com/ioparaskev/cenotes-reaction.git`
+        -  `git clone https://github.com/cenotes/cenotes-reaction.git`
     2. Install the dependencies
         - `npm install`
     3. Start the server
         - `npm run start`
 2. Using the packaged bundle
-    1. Download the latest release from [here](https://github.com/ioparaskev/cenotes-reaction/releases)
+    1. Download the latest release from [here](https://github.com/cenotes/cenotes-reaction/releases)
     2. Extract, rename as you wish and serve the build folder
         - Example of an nginx configuration (build folder is renamed-> `cenotes-ui`)
         ```
