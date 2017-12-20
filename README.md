@@ -77,7 +77,6 @@ Two options:
                 location /notes {
                     include uwsgi_params;
                     uwsgi_pass  unix:/run/uwsgi/app/cenotes/cenotes.sock;
-            #proxy_pass http://83.212.96.88;
                 }
         }
         ```
