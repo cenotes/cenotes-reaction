@@ -1,6 +1,6 @@
 {
   "name": "cenotes-reaction",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "private": true,
   "dependencies": {
     "moment": "^2.19.1",
