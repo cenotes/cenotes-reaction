@@ -46,7 +46,8 @@ class EncryptAction extends React.Component {
         showEncryptionResults: false
       });
 
-      const {plaintext, password, no_store, max_visits, expiration_date} = this.props.location.query;
+      const {plaintext, password, no_store, max_visits,
+        expiration_date, algorithm, hardness} = this.props.location.query;
       if (plaintext) {
         this.setState({showLoader: true,  shouldDim: true});
         Client.sendEncryptRequest(
@@ -55,7 +56,9 @@ class EncryptAction extends React.Component {
             key: password,
             max_visits: max_visits,
             no_store: no_store,
-            expiration_date: expiration_date
+            expiration_date: expiration_date,
+            algorithm: algorithm,
+            hardness: hardness
           }),
           this.handleSubmitCb);
       }

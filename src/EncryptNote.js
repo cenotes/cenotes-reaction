@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import { Accordion, Checkbox, Message, Button, Segment, TextArea, Icon, Input,
-  Form } from "semantic-ui-react";
+  Form, Dropdown } from "semantic-ui-react";
 
 import 'react-datepicker/dist/react-datepicker.css';
-
+import Client from "./Client";
 
 class EncryptNote extends React.Component {
   state = { activeIndex: 0 };
@@ -23,9 +23,34 @@ class EncryptNote extends React.Component {
       expirationDate: moment().add(2,'week'),
       expirationDatePlaceHolder: "Note does not expire",
       expirationDateEnabled: true,
+      algorithm: "",
+      hardness:"",
+      supported_algorithm_options: []
     };
 
   }
+
+  handleFetchAlgoCb = (err={}, data={}) => {
+    if (Object.getOwnPropertyNames(err).length === 0){
+      this.setState({supported_algorithm_options: Object.keys(data)
+      .map(alg => data[alg].hardness
+        .map(
+          hardness => ({
+            "value": `${alg} ${hardness}`,
+            "text": `${alg} ${hardness}`})))
+      .reduce((acc, arr) => acc.concat(arr), [])})
+    }
+  };
+
+  handleDefaultAlgoCb = (err={}, response={}) => {
+    if (Object.getOwnPropertyNames(err).length === 0){
+      this.setState({
+        algorithm: response.algorithm,
+        hardness: response.hardness,
+    });
+    }
+  };
+
 
   handleAccordionClick = (e, titleProps) => {
     const { index } = titleProps;
@@ -33,6 +58,13 @@ class EncryptNote extends React.Component {
     const newIndex = activeIndex === index ? -1 : index;
 
     this.setState({ activeIndex: newIndex })
+  };
+
+  componentDidMount(){
+    Client.fetchAlgorithmOptions(
+      this.handleFetchAlgoCb);
+    Client.fetchDefaultAlgorithmOptions(
+        this.handleDefaultAlgoCb);
   };
 
   handleStoreChange = e => {
@@ -71,6 +103,13 @@ class EncryptNote extends React.Component {
 
   handleExpirationDateChange = date => {
     this.setState({expirationDate: date});
+  };
+
+  handleAlgorithmOptionSet = (e, dropdown) => {
+    this.setState({
+      algorithm: dropdown.value.split(" ")[0],
+      hardness: dropdown.value.split(" ")[1]
+    })
   };
 
   render() {
@@ -138,6 +177,15 @@ class EncryptNote extends React.Component {
                   showYearDropdown
                   dropdownMode="select"
                 />
+                <span hidden={!this.state.algorithm}>
+                  Algorithm used to generate key: {' '}
+                  <Dropdown
+                      inline
+                      onChange={this.handleAlgorithmOptionSet}
+                      value={this.state.algorithm.concat(" ", this.state.hardness)}
+                      options={this.state.supported_algorithm_options}
+                  />
+                </span>
               </Accordion.Content>
             </Accordion>
             <p/>
@@ -148,7 +196,10 @@ class EncryptNote extends React.Component {
                   password: this.state.password,
                   max_visits: this.state.max_visits,
                   no_store: !Boolean(this.state.store),
-                  expiration_date: this.state.expirationDate || ""}
+                  expiration_date: this.state.expirationDate || "",
+                  algorithm: this.state.algorithm,
+                  hardness: this.state.hardness
+                }
               }}>
               <Button negative>
                 Encrypt
