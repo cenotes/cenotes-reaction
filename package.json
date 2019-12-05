@@ -1,15 +1,15 @@
 {
   "name": "cenotes-reaction",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "private": true,
   "dependencies": {
-    "moment": "^2.19.1",
-    "react": "^16.0.0",
+    "moment": "^2.24.0",
+    "react": "^16.12.0",
     "react-datepicker": "^0.60.2",
-    "react-dom": "^16.0.0",
-    "react-router-dom": "^4.2.2",
-    "react-scripts": "1.0.14",
-    "semantic-ui-css": "^2.2.12",
+    "react-dom": "^16.12.0",
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "^3.3.0",
+    "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.75.1"
   },
   "scripts": {
@@ -19,5 +19,17 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {},
-  "proxy": "http://localhost:8080/"
+  "proxy": "http://localhost:8080/",
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
 }
